@@ -1,130 +1,791 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Woodora </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Woodex Navbar</title>
+    <link rel="stylesheet" href="assert/lib/fontawasome/fontawesome-free-6.7.2-web/css/all.css">
+    <link rel="stylesheet" href="assert/lib/normalize.css">
 
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=My+Soul&family=Ultra&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <style>
+        .nav-minimal .form-control {
+            border: 0;
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+            padding-left: 0;
+            padding-right: 2.25rem;
+            box-shadow: none !important;
+        }
+        .nav-minimal .form-control:focus {
+            border-color: #bbb;
+        }
+        .search-wrap {
+            position: relative;
+            max-width: 260px;
+        }
+        .search-wrap .bi-search {
+            position: absolute;
+            right: .25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.25rem;
+            color: #333;
+            opacity: .7;
+            pointer-events: none;
+        }
+        .brand-title {
+            font-weight: 800;
+            letter-spacing: .5px;
+            margin: 0;
+        }
+        .icon-btn {
+            color: #111;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .icon-btn:hover { color: #000; }
+        .badge-dot {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #C58A5A;
+            font-size: .7rem;
+            min-width: 18px;
+            height: 18px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+        }
+
+        /*home*/
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .catalog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            height: 100vh;
+            padding: 10px;
+        }
+
+        .product-card {
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .product-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            position: relative;
+            z-index:1;
+            transition-duration: 800ms;
+        }
+
+        .product-image:hover{
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .product-info a:hover{
+            color: #C58A5A;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .product-category {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Specific product images */
+        .art-deco {
+            background-image: url('assert/images/hero-product-1.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            object-fit: cover;
+        }
+
+        .helen-chair {
+            background-image: url('assert/images/hero-product-2.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .vase-flowers {
+            background-image: url('assert/images/hero-product-3.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .wood-eggs {
+            background-image: url('assert/images/hero-product-4.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .table-pine {
+            background-image: url('assert/images/hero-product-5.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Grid positioning exactly like the reference */
+        /* First row: 3 columns - 3 columns - 6 columns */
+        .product-card:nth-child(1) { grid-row: 1; grid-column: 1 / 4; }  /* Art Deco Home - 3 columns */
+        .product-card:nth-child(2) { grid-row: 1; grid-column: 4 / 10; } /* Helen Chair - 6 columns */
+        .product-card:nth-child(3) { grid-row: 1; grid-column: 10 / 13; } /* Vase Of Flowers - 3 columns */
+
+        /* Second row: 6 columns each */
+        .product-card:nth-child(4) { grid-row: 2; grid-column: 1 / 7; }  /* Wood Eggs - 6 columns */
+        .product-card:nth-child(5) { grid-row: 2; grid-column: 7 / 13; } /* Table Wood Pine - 6 columns */
+
+        @media (max-width: 768px) {
+            .catalog-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(5, 300px);
+                height: auto;
+            }
+
+            .product-card:nth-child(1) { grid-row: 1; grid-column: 1; }
+            .product-card:nth-child(2) { grid-row: 2; grid-column: 1; }
+            .product-card:nth-child(3) { grid-row: 3; grid-column: 1; }
+            .product-card:nth-child(4) { grid-row: 4; grid-column: 1; }
+            .product-card:nth-child(5) { grid-row: 5; grid-column: 1; }
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        .centered-button {
+            background: linear-gradient(135deg, #b0b3b8 0%, #a6a4a8 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .centered-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .centered-button:active {
+            transform: translateY(0);
+        }
+
+        /*about*/
+
+        .about {
+            text-align: center;
+            padding: 60px 20px 40px;
+            /*background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);*/
+            margin-bottom: 0;
+        }
+
+        .store-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0 0 30px 0;
+            color: #333;
+            letter-spacing: -1px;
+        }
+
+        .store-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+            font-style: normal;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vase-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            background: radial-gradient(ellipse at center, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 60px;
+            height: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .carousel-control-prev {
+            left: -80px;
+        }
+
+        .carousel-control-next {
+            right: -80px;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-size: 50% 50%;
+            filter: invert(0.5);
+        }
+
+        .carousel-indicators {
+            bottom: -50px;
+        }
+
+        .carousel-indicators [data-bs-target] {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(139, 69, 19, 0.5);
+            border: none;
+            margin: 0 5px;
+        }
+
+        .carousel-indicators .active {
+            background-color: #8b4513;
+        }
+
+        .text-section {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #8b4513;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        .vase-info {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(139, 69, 19, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-control-prev { left: 10px; }
+            .carousel-control-next { right: 10px; }
+            .main-title { font-size: 2rem; }
+            .carousel-item img { height: 250px; }
+            .vase-container { max-width: 100%; }
+        }
+
+        .hover-link:hover {
+            color: black !important;
+            text-decoration: underline;
+            transition: 0.3s;
+        }
+        .social-link i {
+            font-size: 30px;
+            color: black;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .social-link i:hover {
+            transform: scale(1.2);
+            color: black;
+        }
+
+        /*popular*/
+
+
+
+
+    </style>
 </head>
 <body>
-<!--  menu bar-->
-<nav class="navbar navbar-expand-lg bg-body-tertiary custom-navbar" >
-    <div class="container-fluid" >
-        <a class="navbar-brand fw-bold " href="#" style="font-size: 1.5rem"> Woodora Furniture </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup"  >
-            <div class="navbar-nav custom-nav">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                <a class="nav-link" href="#">Features</a>
-                <a class="nav-link" href="#">Collection </a>
-                <a class="nav-link" href="#"> Services </a>
-                <a class="nav-link" href="#"> About Us </a>
 
+<!-- Top bar -->
+<div class="container py-3 nav-minimal">
+    <div class="row align-items-center">
+        <!-- Left: Search -->
+        <div class="col-5 d-flex">
+            <form class="w-100" role="search" aria-label="Site search">
+                <div class="search-wrap w-100">
+                    <input class="form-control" type="search" placeholder="Search Anything..." aria-label="Search">
+                    <i class="bi bi-search"></i>
+                </div>
+            </form>
+        </div>
+
+        <!-- Center: Brand -->
+        <div class="col-2 text-center">
+            <a href="#" class="text-decoration-none text-dark">
+                <h1 class="brand-title h3 m-0" style="font-size: 40px">Woodex</h1>
+            </a>
+        </div>
+
+        <!-- Right: Icons -->
+        <div class="col-5">
+            <div class="d-flex justify-content-end align-items-center gap-3 gap-sm-4">
+
+                <!-- Account -->
+                <a href="signup.html" class="icon-btn position-relative" aria-label="Account">
+                    <i class="bi bi-person"></i>
+                </a>
+                <!-- Hamburger / Menu -->
+                <button class="btn p-0 icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu" aria-controls="mainMenu">
+                    <i class="bi bi-list" style="font-size:1.4rem;"></i>
+                </button>
             </div>
-                 <a href="signUpPage.html"> <button type="button" class="btn btn-outline-info "> Sign Up </button> </a>
-
         </div>
     </div>
-</nav>
+</div>
+
+<!-- Offcanvas Menu -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="mainMenuLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column fs-5">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Popular</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+    </div>
+</div>
+
 
 <!--home-->
-<section id="home" style="position: relative; height: 100vh; overflow: hidden;">
 
-    <!-- Black overlay -->
-    <div style="
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 1;">
-    </div>
-
-    <!-- Text & buttons -->
-    <div style="position: relative; z-index: 2; max-width: 800px; padding: 20px; color: wheat;" >
-        <h4 class="display-4 fw-bold" >
-            Welcome to Our
-        </h4>
-        <h1 class="display-4 fw-bold" >
-            Woodora Furniture Collection
-        </h1>
-
-        <a href="#services" class="btn btn-lg animated-btn mt-3" id="service-btn" data-aos="zoom-out-left" data-aos-delay="800">Explore our Collection</a>
-    </div>
-
-</section>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-
-<section id="Features" style="min-height: 100vh;">
-    <div class="container my-5">
-        <div class="row g-4">
-
-            <!-- Kitchen Accessories + Paragraph -->
-            <div class="col-md-6">
-                <div class="p-3 border bg-light d-flex flex-column justify-content-between h-100">
-                    <div>
-                        <h5 class="text-danger fw-bold">Sale Up To 50%</h5>
-                        <h3 class="fw-bold">KITCHEN ACCESSORIES</h3>
-                        <p><a href="#" class="text-decoration-none">Shop Now</a></p>
-                        <img src="assert/image/Kitchen%20Accessories.jpg" class="img-fluid mb-3" alt="Kitchen Accessories">
-                    </div>
-                    <div>
-                        <h3> Elegant Kitchen Tools </h3>
-                        <p class="text-justify">
-                            Discover a world of functionality and beauty with our latest kitchen accessories. Designed for the
-                            modern cook, these items bring elegance and order to your culinary space. From sturdy utensils to
-                            space-saving racks, our products help streamline meal prep while keeping your kitchen looking sharp.
-                            Each piece is carefully selected for quality and design, ensuring it not only performs well but
-                            also enhances your home’s decor. Whether you're a passionate foodie or a casual chef, these
-                            accessories make cooking easier and more enjoyable. Built from durable materials and styled
-                            to impress, our kitchen tools are an investment in everyday efficiency. Organize your kitchen
-                            with baskets, holders, and containers that blend seamlessly into any interior style. Add charm
-                            with wooden accents, vibrant colors, or sleek metal finishes — all available in our collection.
-                            It’s time to upgrade your kitchen with products that reflect your taste and meet your needs.
-                            Bring home thoughtful design and make every cooking experience special. Shop now and turn your
-                            kitchen into your favorite room in the house!
-                        </p>
-                    </div>
-                </div>
+<div class="catalog-container"  style="position: relative; top: 20px">
+    <div class="catalog-grid">
+        <div class="product-card">
+            <div class="product-image art-deco"></div>
+            <div class="product-info" >
+                <a href="" style="text-decoration: none"><h3 class="product-title" >Art Deco Home</h3></a>
+                <p class="product-category" >Decoration</p>
             </div>
+        </div>
 
-            <!-- Handmade Basket -->
-            <div class="col-md-6">
-                <div class="p-3 border bg-light text-end h-100">
-                    <p class="text-primary">New Arrivals</p>
-                    <h3 class="fw-bold">HANDMADE BASKET</h3>
-                    <img src="assert/image/Handmade%20Basket.jpg" class="img-fluid" alt="Handmade Basket">
-                </div>
+        <div class="product-card">
+            <div class="product-image helen-chair"></div>
+            <div class="product-info">
+                <a href="" style="text-decoration: none"><h3 class="product-title">Helen Chair</h3></a>
+                <p class="product-category">Furniture</p>
             </div>
+        </div>
 
-            <!-- Minimalist Watches -->
-            <div class="col-md-6">
-                <div class="p-3 border bg-light">
-                    <h4 class="text-warning">MINIMALIST WATCHES</h4>
-                    <img src="assert/image/bedroom%20furniture.jpg" class="img-fluid" alt="Watches">
-                    <h5 class="mt-3 text-secondary">DECORATIVE</h5>
-                </div>
+        <div class="product-card">
+            <div class="product-image vase-flowers"></div>
+            <div class="product-info">
+                <a href="" style="text-decoration: none"><h3 class="product-title" >Vase Of Flowers</h3></a>
+                <p class="product-category">Decoration</p>
             </div>
+        </div>
 
-            <!-- Luxury Sofa -->
-            <div class="col-md-6">
-                <div class="p-3 border bg-light text-center">
-                    <h5 class="text-success">Sale 70% Off</h5>
-                    <h3 class="fw-bold">LUXURY SOFA FURNITURE</h3>
-                    <p><a href="#" class="text-decoration-none">Shop Now</a></p>
-                    <img src="assert/image/living%20room%201.jpg" class="img-fluid" alt="Luxury Sofa">
-                </div>
+        <div class="product-card">
+            <div class="product-image wood-eggs"></div>
+            <div class="product-info">
+                <a href="" style="text-decoration: none"><h3 class="product-title">Wood Eggs</h3></a>
+                <p class="product-category">Decoration</p>
             </div>
+        </div>
 
+        <div class="product-card">
+            <div class="product-image table-pine"></div>
+            <div class="product-info">
+                <a href="" style="text-decoration: none"><h3 class="product-title" >Table Wood Pine</h3></a>
+                <p class="product-category">Furniture</p>
+            </div>
         </div>
     </div>
+
+    <div class="button-container">
+        <button class="centered-button">
+            View More Products
+        </button>
+    </div>
+</div>
+
+<!--about-->
+<div class="about"  style="position: relative;top: 25px">
+    <h1 class="store-title">Woodex Store</h1>
+    <p class="store-description">
+        At [Your Store Name], we believe that every piece of furniture has the power to transform a space
+        and tell a story. For us, furniture is not just about function – it’s about creating warmth,
+        comfort, and beauty in the places you love the most. From modern designs that fit seamlessly
+        into city living to timeless classics that bring elegance to any home, our goal is to offer
+        collections that inspire and last for generations.
+
+        We carefully select quality materials and work with skilled craftsmen to ensure every item
+        meets the highest standards of durability and design. Whether you’re furnishing a brand-new
+        home, refreshing a single room, or searching for that perfect statement piece, our wide
+        range of living room, dining, bedroom, and office furniture is designed to suit your lifestyle
+        and personality.
+
+        Beyond products, we take pride in providing a smooth and enjoyable shopping experience.
+        Our team is here to guide you, answer questions, and help you find pieces that truly fit
+        your space. At [Your Store Name], we don’t just sell furniture – we help you create a home
+        filled with comfort, style, and memories that last.
+    </p>
+</div>
+
+<div class="hero-section">
+    <div class="floating-elements">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="vase-container">
+                    <div id="vaseCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#vaseCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#vaseCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#vaseCarousel" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#vaseCarousel" data-bs-slide-to="3"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="assert/images/about-0.PNG" alt="Ribbed Wooden Vases Collection" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assert/images/about-1.jpg" alt="Modern Wooden Vase" class="d-block w-100">
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="assert/images/about-5.jpg" alt="Handcrafted Wooden Vessel" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assert/images/about-4.PNG" alt="Artistic Wooden Bowls" class="d-block w-100">
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#vaseCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#vaseCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--popular-->
+
+<section class="container py-5" id="menu">
+
+    <h1 class="store-title" style="font-size: 35px"> Popular  </h1>
+
+    <div class="row g-4 menu-items">
+        <div class="col-lg-3 col-md-6 col-sm-12" data-category="rice all">
+            <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="assert/images/popular-1.jpg" class="card-img-top" alt="Food Item">
+                <div class="card-body text-left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="card-title fw-bold">Chicken Rice</h5>
+                        <h5 class="text-danger fw-bold">Rs.1350/=</h5>
+                    </div>
+                    <p class="card-text">Chicken rice is a delicious and popular dish enjoyed by many across Asia and beyond.</p>
+
+                    <!-- 3 Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <!--                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">View</button>-->
+                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">Add to Cart</button>
+                        <button class="btn btn-warning btn-sm w-100 mx-1">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12" data-category="rice all">
+            <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="assert/images/popular-8.PNG" class="card-img-top" alt="Food Item">
+                <div class="card-body text-left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="card-title fw-bold">Chicken Rice</h5>
+                        <h5 class="text-danger fw-bold">Rs.1350/=</h5>
+                    </div>
+                    <span class="badge bg-warning text-dark mb-2">Rice</span>
+                    <p class="card-text">Chicken rice is a delicious and popular dish enjoyed by many across Asia and beyond.</p>
+
+                    <!-- 3 Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <!--                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">View</button>-->
+                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">Add to Cart</button>
+                        <button class="btn btn-warning btn-sm w-100 mx-1">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12" data-category="rice all">
+            <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="assert/images/pop-3.jpg" class="card-img-top" alt="Food Item">
+                <div class="card-body text-left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="card-title fw-bold">Chicken Rice</h5>
+                        <h5 class="text-danger fw-bold">Rs.1350/=</h5>
+                    </div>
+                    <span class="badge bg-warning text-dark mb-2">Rice</span>
+                    <p class="card-text">Chicken rice is a delicious and popular dish enjoyed by many across Asia and beyond.</p>
+
+                    <!-- 3 Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <!--                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">View</button>-->
+                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">Add to Cart</button>
+                        <button class="btn btn-warning btn-sm w-100 mx-1">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-12" data-category="rice all">
+            <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+                <img src="assert/images/" class="card-img-top" alt="Food Item">
+                <div class="card-body text-left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="card-title fw-bold">Chicken Rice</h5>
+                        <h5 class="text-danger fw-bold">Rs.1350/=</h5>
+                    </div>
+                    <span class="badge bg-warning text-dark mb-2">Rice</span>
+                    <p class="card-text">Chicken rice is a delicious and popular dish enjoyed by many across Asia and beyond.</p>
+
+                    <!-- 3 Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <!--                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">View</button>-->
+                        <button class="btn btn-outline-danger btn-sm w-100 mx-1">Add to Cart</button>
+                        <button class="btn btn-warning btn-sm w-100 mx-1">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </section>
 
+<div class="container my-5 col-md-10">
+    <div class="row align-items-center bg-light p-4 rounded"  style="height: 200px">
+        <!-- Left Text -->
+        <div class="col-md-6">
+            <h4 class="fw-bold mb-1">Our Newsletter</h4>
+            <p class="mb-0">Subscribe our newsletter and get discount 50% off</p>
+        </div>
+
+        <!-- Right Form -->
+        <div class="col-md-6">
+            <form class="d-flex">
+                <input type="email" class="form-control me-2" placeholder="Your email address" required>
+                <button type="submit" class="btn btn-light border">
+                    ➝
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="text-black text-center text-lg-start" style="background: rgba(166,164,168,0.38);">
+    <div class="container py-5">
+
+        <div class="row g-4 align-items-start">
+            <!-- Explore Links -->
+            <div class="col-12 col-lg-4">
+                <h6 class="fw-bold mb-3 fs-4">Explore</h6>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    <a href="#home" class="text-black text-decoration-none hover-link">Home</a>
+                    <a href="#about" class="text-black text-decoration-none hover-link">About</a>
+                    <a href="#services" class="text-black text-decoration-none hover-link">Services</a>
+                    <a href="#contact" class="text-black text-decoration-none hover-link">Contact</a>
+                </div>
+            </div>
+
+            <!-- Brand Column -->
+            <div class="col-12 col-lg-4 text-center">
+                <h4 class="fw-bold mb-3">Woodex Furniture</h4>
+                <p class="mb-0 fs-6">
+                    We believe that every piece of furniture has the power to transform a space and tell a story.
+                </p>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-12 col-lg-4">
+                <h6 class="fw-bold mb-3 fs-4">Get in Touch</h6>
+                <p class="mb-2 fs-6">
+                    <i class="fas fa-phone me-2 text-black"></i> 07756454345
+                </p>
+                <p class="mb-2 fs-6 text-break">
+                    <i class="fas fa-envelope me-2 text-black"></i> erangaF'do@gmail.com
+                </p>
+                <p class="mb-0 fs-6">
+                    <i class="fas fa-map-marker-alt me-2 text-black"></i> 73/1 A Horana Road, Gonapala
+                </p>
+            </div>
+        </div>
+
+        <!-- Social Icons -->
+        <div class="mt-4 d-flex justify-content-center gap-4">
+            <a href="https://facebook.com" class="social-link" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://linkedin.com" class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://twitter.com" class="social-link" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+
+        <hr class="my-4 border-black">
+
+        <!-- Footer Bottom -->
+        <div class="text-center fs-6">
+            &copy; 2025 <strong>Woodex Furniture</strong>. Designed By Eran
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

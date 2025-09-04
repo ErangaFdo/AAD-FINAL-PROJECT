@@ -311,7 +311,7 @@
       </div>
     </div>
 
-    <button type="submit" class="signup-btn">
+    <button type="button" class="signup-btn" id="signIn">
       <i class="bi bi-person-plus me-2"></i>
       Sign In
     </button>
@@ -322,6 +322,8 @@
   </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -338,6 +340,69 @@
       toggleIcon.className = 'bi bi-eye';
     }
   }
+
+
+  $('#signIn').on('click', function () {
+    var username = $('#fullName').val();
+    var password = $('#password').val();
+
+    if (username && password) {
+      $.ajax({
+        method: 'POST',
+        url: 'http://localhost:8080/auth/login',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: username,
+          password: password
+        }),
+        success: function(response) {
+          console.log("Login API Response:", response); // debug
+
+          const token = response.data?.accessToken;
+          if (token) {
+            // Save to localStorage
+            localStorage.setItem('username', username);
+            localStorage.setItem('token', token);
+
+            // Get user role
+            $.ajax({
+              method: 'GET',
+              url: 'http://localhost:8080/hello/api/user-info',
+              headers: {
+                'Authorization': 'Bearer ' + token
+              },
+              success: function(userInfo) {
+                const role = userInfo.role;
+                if (role === 'ADMIN') {
+                  console.log("ADMIN Token:", token);
+                  alert('Successfully Login Admin');
+                  window.location.href = 'adminDashBoard.html';
+                } else if (role === 'USER') {
+                  console.log("USER Token:", token);
+                  alert('Successfully Login User');
+                  window.location.href = 'index.html';
+                } else {
+                  alert('Unknown user role!');
+                }
+              },
+              error: function () {
+                alert('Session expired or unauthorized');
+              }
+            });
+          } else {
+            alert('Login failed: No token received');
+          }
+        },
+        error: function (xhr) {
+          let errorMessage = xhr.responseJSON?.message || 'Login failed. Please check your username and password.';
+          alert(errorMessage);
+        }
+      });
+    } else {
+      alert('Please enter both username and password');
+    }
+  });
+
 
 </script>
 </body>

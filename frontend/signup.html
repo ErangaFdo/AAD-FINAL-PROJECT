@@ -301,8 +301,8 @@
     </div>
 
     <div class="form-group">
-      <label for="email" class="form-label">Email Address</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+      <label for="emailAddress" class="form-label">Email Address</label>
+      <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email" required>
     </div>
 
     <div class="form-group">
@@ -315,7 +315,7 @@
       </div>
     </div>
 
-    <button type="submit" class="signup-btn">
+    <button type="button" class="signup-btn" id="signUp">
       <i class="bi bi-person-plus me-2"></i>
       Sign Up
     </button>
@@ -326,6 +326,8 @@
   </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -342,6 +344,37 @@
       toggleIcon.className = 'bi bi-eye';
     }
   }
+
+    $('#signUp').on('click', function () {
+    var username = $('#fullName').val();
+    var email = $('#emailAddress').val();
+    var password = $('#password').val();
+
+
+    if (username && email && password) {
+    $.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/auth/register',
+    data: JSON.stringify({
+    userName: username,
+      emailAddress: email,
+    userPassword: password,
+    role: "USER"
+  }),
+    contentType: 'application/json',
+    success: function (response) {
+    alert(response.message); // Optional
+    window.location.href = 'signIn.html';
+  },
+    error: function (xhr) {
+    let errorMessage = xhr.responseJSON?.message || 'Error occurred';
+    alert(errorMessage);
+  }
+  });
+  } else {
+    alert('Please fill in all fields');
+  }
+  });
 
 </script>
 </body>

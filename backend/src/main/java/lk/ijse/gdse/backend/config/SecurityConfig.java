@@ -31,7 +31,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/hello/api/user-info").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/hello/api/user-info",
+//                                "api/v1/user/all",
+                                "api/v1/user/delete/{id}",
+                                "api/v1/user/paginated",
+                                "api/v1/user/total-pages",
+                                "api/v1/user/search/{keyword}").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

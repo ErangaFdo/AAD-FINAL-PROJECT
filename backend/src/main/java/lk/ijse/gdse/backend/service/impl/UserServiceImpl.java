@@ -6,6 +6,7 @@ import lk.ijse.gdse.backend.repository.UserRepository;
 import lk.ijse.gdse.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,10 +52,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteCustomer(Long id) {
+    public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
         userRepository.delete(user);
+    }
+
+    @Override
+    public List<UserDto> getUserByPage(int page, int size) {
+        int offset = page * size;
+        List<User> users = userRepository.findByUserPaginated(size, offset);
+        return modelMapper.map(users, new TypeToken<List<UserDto>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int totalUsers = userRepository.getTotalUserCount();
+        return (int) Math.ceil((double) totalUsers / size);
+    }
+
+    @Override
+    public List<UserDto> searchUsers(String keyword) {
+        List<User>list=userRepository.findUserByUserNameContainingIgnoreCase(keyword);
+        return modelMapper.map(list, new TypeToken<List<UserDto>>(){}.getType());
     }
 
 

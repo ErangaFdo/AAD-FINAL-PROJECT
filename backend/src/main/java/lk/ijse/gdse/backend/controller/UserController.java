@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/user")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -47,9 +48,36 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse> deleteCustomer(@PathVariable Long id) {
-        userService.deleteCustomer(id);
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.ok(new ApiResponse(200, "Customer deleted successfully", null));
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<UserDto> users = userService.getUserByPage(page, size);
+        return ResponseEntity.ok(new ApiResponse(200, "OK", users));
+    }
+
+    @GetMapping("/total-pages")
+    public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
+        int totalPages = userService.getTotalPages(size);
+        return ResponseEntity.ok(totalPages);
+    }
+
+    @GetMapping("search/{keyword}")
+    public ResponseEntity<ApiResponse> searchMenus(@PathVariable("keyword") String keyword) {
+        List<UserDto> userDtos = userService.searchUsers(keyword);
+        return ResponseEntity.ok(
+                new ApiResponse(
+                        200,
+                        "User found Successfully",
+                        userDtos
+                )
+        );
     }
 
 }

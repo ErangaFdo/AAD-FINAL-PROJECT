@@ -36,7 +36,10 @@ public class SecurityConfig {
                                 "api/v1/user/delete/{id}",
                                 "api/v1/user/paginated",
                                 "api/v1/user/total-pages",
-                                "api/v1/user/search/{keyword}").permitAll()
+                                "api/v1/user/search/{keyword}",
+                                "api/v1/product/addItem",
+                                "api/v1/product/all",
+                                "api/v1/product/updateItem").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

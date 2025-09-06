@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     int getTotalUserCount();
 
     List<User> findUserByUserNameContainingIgnoreCase(String keyword);
+
+
 }

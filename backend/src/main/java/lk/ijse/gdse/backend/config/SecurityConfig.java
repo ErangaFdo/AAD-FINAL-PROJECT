@@ -39,7 +39,12 @@ public class SecurityConfig {
                                 "api/v1/user/search/{keyword}",
                                 "api/v1/product/addItem",
                                 "api/v1/product/all",
-                                "api/v1/product/updateItem").permitAll()
+                                "api/v1/product/updateItem",
+                                "api/v1/product/deleteItem",
+                                "api/v1/popular/addPopularItem",
+                                "api/v1/popular/all",
+                                "api/v1/popular/updateItem",
+                                "api/v1/popular/delete/").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

@@ -51,4 +51,9 @@ public class FeedBackServiceImpl implements FeedBackService {
         }
         return feedBackDtos;
     }
+
+    @Override
+    public void deleteFeedback(Long id) {
+
+    }
 }

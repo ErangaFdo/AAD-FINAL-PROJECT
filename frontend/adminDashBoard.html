@@ -58,12 +58,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr><td>1</td><td>Wooden Chair</td><td>12,000</td><td>25</td>
-                    <td><button class="btn btn-sm btn-primary">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button></td></tr>
-                <tr><td>2</td><td>Dining Table</td><td>45,000</td><td>10</td>
-                    <td><button class="btn btn-sm btn-primary">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button></td></tr>
+<!--                <tr><td>1</td><td>Wooden Chair</td><td>12,000</td><td>25</td>-->
+<!--                    <td><button class="btn btn-sm btn-primary">Edit</button>-->
+<!--                        <button class="btn btn-sm btn-danger">Delete</button></td></tr>-->
+<!--                <tr><td>2</td><td>Dining Table</td><td>45,000</td><td>10</td>-->
+<!--                    <td><button class="btn btn-sm btn-primary">Edit</button>-->
+<!--                        <button class="btn btn-sm btn-danger">Delete</button></td></tr>-->
                 </tbody>
             </table>
             <!-- Pagination -->
@@ -88,8 +88,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr><td>101</td><td>Kasun</td><td>2025-09-04</td><td>Pending</td><td>57,000</td></tr>
-                <tr><td>102</td><td>Nimali</td><td>2025-09-03</td><td>Delivered</td><td>12,000</td></tr>
+<!--                <tr><td>101</td><td>Kasun</td><td>2025-09-04</td><td>Pending</td><td>57,000</td></tr>-->
+<!--                <tr><td>102</td><td>Nimali</td><td>2025-09-03</td><td>Delivered</td><td>12,000</td></tr>-->
                 </tbody>
             </table>
             <!-- Pagination -->
@@ -171,169 +171,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
-<script>
-    // Sidebar navigation
-    const links = document.querySelectorAll('.sidebar .nav-link');
-    const sections = document.querySelectorAll('.content-section');
-    const pageTitle = document.getElementById('pageTitle');
-
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            links.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            sections.forEach(sec => sec.classList.add('d-none'));
-            const targetId = link.getAttribute('data-target');
-            document.getElementById(targetId).classList.remove('d-none');
-            pageTitle.textContent = targetId.charAt(0).toUpperCase() + targetId.slice(1);
-        });
-    });
-
-    function logout() {
-        // optional: localStorage / token clear karanna
-        localStorage.removeItem("token");
-
-        // redirect to signin page
-        window.location.href = "signin.html";
-    }
-
-
-    const token = localStorage.getItem('token');
-    function authHeaders() {
-        return {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        };
-    }
-
-    let currentPage = 0;
-    const pageSize = 8;
-
-    function loadUser( page=0,) {
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/paginated?page=${page}&size=${pageSize}`,
-        type: 'GET',
-            headers: authHeaders(),
-            success: function (res) {
-            const users = res.data || []; // <-- important
-            let rows = "";
-            users.forEach(user => {
-                rows +=
-                    `<tr>
-                     <td>${user.userName}</td>
-                     <td>${user.emailAddress}</td>
-                     <td>${user.userPassword}</td>
-                     <td>${user.role}</td>
-                     <td>
-<!--                         <button class="btn btn-warning me-2">Edit</button>-->
-                         <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.userId}')">Delete</button>
-                     </td>
-                  </tr>`;
-            });
-
-            currentPage = page
-                loadPagination(page)
-
-            $('#userTableBody').html(rows);
-
-        },
-        error: function(err){
-            console.log(err);
-            alert("Failed to load customers");
-        }
-    });
-    }
-
-    $(document).ready(function () {
-        loadUser(currentPage);
-    });
-
-    function deleteUser(userId) {
-        if(!confirm("Are you sure you want to delete this customer?")) return;
-
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/delete/${userId}`,
-        type: "DELETE",
-            headers: authHeaders(),
-            success: function(response) {
-            alert("Customer deleted successfully!");
-            loadUser();
-        },
-        error: function(xhr) {
-            alert("Error deleting customer: " + xhr.responseText);
-        }
-    });
-    }
-
-    function loadPagination(current) {
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/total-pages?size=${pageSize}`,
-            method: 'GET',
-            success: function (totalPages) {
-                const pagination = $('.pagination');
-                pagination.empty();
-
-                for (let i = 0; i < totalPages; i++) {
-                    const activeClass = i === current ? 'active' : '';
-                    const pageBtn = `
-                    <li class="page-item ${activeClass}">
-                        <a class="page-link" href="#" onclick="loadUser(${i})">${i + 1}</a>
-                    </li>`;
-                    pagination.append(pageBtn);
-                }
-            }
-        });
-    }
-
-
-    $('#searchForm').on('submit', function (e) {
-        e.preventDefault(); // form reload avoid
-
-        const keyword = $('#searchInput').val().trim();
-        if (!keyword) {
-            loadUser(0);
-            return;
-        }
-
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/search/${keyword}`,
-            method: 'GET',
-            headers: authHeaders(),
-            success: function (res) {
-                const users = res.data || [];
-                let rows = "";
-
-                if (users.length === 0) {
-                    rows = `<tr><td colspan="5" class="text-center">No results found</td></tr>`;
-                } else {
-                    users.forEach(user => {
-                        rows += `
-                        <tr>
-                            <td>${user.userName}</td>
-                            <td>${user.emailAddress}</td>
-                            <td>${user.userPassword}</td>
-                            <td>${user.role}</td>
-                            <td>
-                                <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.userId}')">Delete</button>
-                            </td>
-                        </tr>`;
-                    });
-                }
-
-                $('#userTableBody').html(rows);
-
-                // hide pagination when searching
-                $('.pagination').empty();
-            },
-            error: function (err) {
-                console.log(err);
-                alert("Search failed!");
-            }
-        });
-    });
-
-
-</script>
+<!-- Custom JS -->
+<script src="javascript/adminDashBoardJavascript.js"></script>
 </body>
 </html>

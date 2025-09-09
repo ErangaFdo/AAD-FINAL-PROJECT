@@ -44,7 +44,8 @@ public class SecurityConfig {
                                 "api/v1/popular/addPopularItem",
                                 "api/v1/popular/all",
                                 "api/v1/popular/updateItem",
-                                "api/v1/popular/delete/").permitAll()
+                                "api/v1/popular/delete/" ,
+                                "api/v1/orders/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

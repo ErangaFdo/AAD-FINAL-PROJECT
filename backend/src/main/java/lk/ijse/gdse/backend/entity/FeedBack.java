@@ -21,5 +21,6 @@ public class FeedBack {
     private String message;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }

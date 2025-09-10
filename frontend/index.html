@@ -709,6 +709,15 @@
     </div>
 </section>
 
+<section id="userFeedback" class="py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <h2 class="fw-semibold display-5 text-dark text-center mb-5">Customer Feedback</h2>
+        <div class="row" id="feedbackCardContainer">
+            <!-- Feedback cards will be loaded here -->
+        </div>
+    </div>
+</section>
+
 <div class="container my-5 col-md-10">
     <div class="row align-items-center bg-light p-4 rounded"  style="height: 200px">
         <!-- Left Text -->
@@ -792,8 +801,75 @@
 
 
 
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+    const token = localStorage.getItem('token');
+
+    function authHeaders() {
+        return {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        };
+    }
+
+
+    function loadFeedbackCards() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/feedback/all",
+            type: "GET",
+            headers: authHeaders(),
+            success: function(res) {
+                const feedbackList = res.data || [];
+                let cards = "";
+
+                feedbackList.forEach(fb => {
+
+                    cards += `
+                    <div class="col-md-6 col-lg-3 mb-4">
+                      <div class="card shadow-sm border-0 rounded-4 p-3 h-100 feedback-card">
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="feedback-avatar rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width:40px;height:40px;">
+                            ${fb.fullName.charAt(0).toUpperCase()}
+                          </div>
+                          <div class="ms-3">
+                            <h6 class="mb-0 fw-semibold">${fb.fullName}</h6>
+                            <small class="text-muted">${fb.email}</small>
+                          </div>
+                        </div>
+
+                        <p class="fst-italic text-dark small mb-3">
+                          “${fb.message}”
+                        </p>
+
+                        <p class="mb-2 small">
+                          <span class="fw-semibold">Service:</span>
+                          <span class="text-primary">${fb.services}</span>
+                        </p>
+
+
+                      </div>
+                    </div>
+                `;
+                });
+
+                $('#feedbackCardContainer').html(cards);
+            },
+            error: function(err){
+                console.error(err);
+                $('#feedbackCardContainer').html('<p class="text-danger text-center">Failed to load feedback.</p>');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        loadFeedbackCards();
+    });
+
+</script>
 </body>
 </html>

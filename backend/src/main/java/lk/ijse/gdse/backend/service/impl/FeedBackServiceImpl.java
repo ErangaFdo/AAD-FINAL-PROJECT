@@ -1,6 +1,7 @@
 package lk.ijse.gdse.backend.service.impl;
 
 import lk.ijse.gdse.backend.dto.FeedBackDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.entity.FeedBack;
 import lk.ijse.gdse.backend.entity.User;
 import lk.ijse.gdse.backend.repository.FeedBackRepository;
@@ -8,6 +9,7 @@ import lk.ijse.gdse.backend.repository.UserRepository;
 import lk.ijse.gdse.backend.service.FeedBackService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,5 +57,18 @@ public class FeedBackServiceImpl implements FeedBackService {
     @Override
     public void deleteFeedback(Long id) {
 
+    }
+
+    @Override
+    public List<FeedBackDto> getFeedbackByPage(int page, int size) {
+        int offset = page * size;
+        List<FeedBack> feedBacks = feedBackRepository.findByFeedbackPaginated(size, offset);
+        return modelMapper.map(feedBacks, new TypeToken<List<UserDto>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int totalFeedbacks = feedBackRepository.getTotalFeedbackCount();
+        return (int) Math.ceil((double) totalFeedbacks / size);
     }
 }

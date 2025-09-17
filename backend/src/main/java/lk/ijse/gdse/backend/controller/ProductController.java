@@ -9,7 +9,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +25,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ProductController {
+
+    // ✅ Use absolute path
+    private final String uploadDir = System.getProperty("user.dir") + "/uploads/";
+
     private final ProductService productService;
-    private final String uploadDir = "uploads/";
 
     @PostMapping(value = "/addItem", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> addProductItem(
@@ -48,23 +50,14 @@ public class ProductController {
             productDto.setCategory(category);
             productDto.setDescription(description);
             productDto.setPrice(price);
-            productDto.setImageUrl(fileName);
+            productDto.setImageUrl(fileName); // ✅ Only filename
 
             productService.saveProduct(productDto);
-
             return ResponseEntity.status(201).body("Product item saved successfully");
 
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Failed to save image: " + e.getMessage());
         }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<ApiResponse> getAllProduct() {
-        List<ProductDto> menus = productService.getAllProduct();
-        return ResponseEntity.ok(
-                new ApiResponse(200, "OK", menus)
-        );
     }
 
     @PutMapping(value = "/updateItem", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -93,11 +86,10 @@ public class ProductController {
                 Path filePath = Paths.get(uploadDir, fileName);
                 Files.createDirectories(filePath.getParent());
                 Files.write(filePath, file.getBytes());
-                productDto.setImageUrl(fileName);
+                productDto.setImageUrl(fileName); // ✅ Only filename
             }
 
             productService.updateProduct(productDto);
-
             return ResponseEntity.status(200).body("Menu item saved successfully");
 
         } catch (IOException e) {
@@ -105,12 +97,6 @@ public class ProductController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Operation failed: " + e.getMessage());
         }
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok(new ApiResponse(200, "Menu deleted successfully", null));
     }
 
     @GetMapping("/images/{filename:.+}")
@@ -129,5 +115,34 @@ public class ProductController {
         } catch (MalformedURLException e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse> getAllProduct() {
+        List<ProductDto> menus = productService.getAllProduct();
+        return ResponseEntity.ok(
+                new ApiResponse(200, "OK", menus)
+        );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok(new ApiResponse(200, "Menu deleted successfully", null));
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<ProductDto> products = productService.getProductByPage(page, size);
+        return ResponseEntity.ok(new ApiResponse(200, "OK", products));
+    }
+
+    @GetMapping("/total-pages")
+    public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
+        int totalPages = productService.getTotalPages(size);
+        return ResponseEntity.ok(totalPages);
     }
 }

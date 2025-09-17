@@ -32,9 +32,16 @@ public class OrderServiceImpl implements OrderService {
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
+        double total = ordersDto.getPrice() * ordersDto.getOrderQty();
+        ordersDto.setTotal(total);
+
         // DTO → Entity
         Order order = modelMapper.map(ordersDto, Order.class);
         order.setUser(user);
+
+
+        order.setTotal(total);// ensure entity also gets total
+        order.setStatus("pending");
 
         // Save order
         Order savedOrder = orderRepository.save(order);

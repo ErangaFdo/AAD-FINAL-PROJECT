@@ -10,4 +10,6 @@ public interface FeedBackService {
     FeedBackDto submitFeedback(FeedBackDto feedbackDto, String username);
     List<FeedBackDto> getAllFeedbacks();
     void deleteFeedback(Long id);
+    List<FeedBackDto> getFeedbackByPage(int page, int size);
+    int getTotalPages(int size);
 }

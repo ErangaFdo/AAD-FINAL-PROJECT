@@ -20,6 +20,6 @@ public class OrderDto {
     private int orderQty;
     private Date orderDatetime;
     private String status;
-    private String notes;
+    private double total;
     private Long userId;
 }

@@ -1,11 +1,14 @@
 package lk.ijse.gdse.backend.service.impl;
 
 import lk.ijse.gdse.backend.dto.ProductDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.entity.Product;
+import lk.ijse.gdse.backend.entity.User;
 import lk.ijse.gdse.backend.repository.ProductRepository;
 import lk.ijse.gdse.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -73,5 +76,19 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new RuntimeException("Menu not found with id: " + id));
         productRepository.delete(product);
     }
+
+    @Override
+    public List<ProductDto> getProductByPage(int page, int size) {
+        int offset = page * size;
+        List<Product> products = productRepository.findPaginatedProducts(size, offset);
+        return modelMapper.map(products, new TypeToken<List<ProductDto>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int totalUsers = productRepository.getTotalProductCount();
+        return (int) Math.ceil((double) totalUsers / size);
+    }
+
 
 }

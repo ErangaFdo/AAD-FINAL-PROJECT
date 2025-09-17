@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 "api/v1/popular/delete/" ,
                                 "api/v1/orders/**",
                                 "api/v1/feedback/save",
-                                "api/v1/feedback/**").permitAll()
+                                "api/v1/feedback/**" ,
+                                "api/v1/payment/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

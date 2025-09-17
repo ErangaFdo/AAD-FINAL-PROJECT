@@ -2,6 +2,7 @@ package lk.ijse.gdse.backend.controller;
 
 import lk.ijse.gdse.backend.dto.ApiResponse;
 import lk.ijse.gdse.backend.dto.FeedBackDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.service.FeedBackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,19 @@ public class FeedBackController {
     public ResponseEntity<ApiResponse> deleteFeedback(@PathVariable Long id) {
         feedBackService.deleteFeedback(id);
         return ResponseEntity.ok(new ApiResponse(200, "Feedback deleted successfully", null));
+    }
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<FeedBackDto> feedBacks = feedBackService.getFeedbackByPage(page, size);
+        return ResponseEntity.ok(new ApiResponse(200, "OK", feedBacks));
+    }
+
+    @GetMapping("/total-pages")
+    public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
+        int totalPages = feedBackService.getTotalPages(size);
+        return ResponseEntity.ok(totalPages);
     }
 }

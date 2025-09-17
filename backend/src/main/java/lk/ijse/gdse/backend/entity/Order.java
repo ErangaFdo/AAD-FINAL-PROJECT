@@ -27,7 +27,7 @@ public class Order {
     private int orderQty;
     private Date orderDatetime;
     private String status;
-    private String notes;
+    private double total;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

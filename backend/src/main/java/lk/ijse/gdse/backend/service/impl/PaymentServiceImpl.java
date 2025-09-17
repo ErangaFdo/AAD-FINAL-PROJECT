@@ -20,25 +20,22 @@ public class PaymentServiceImpl implements PaymentService {
     private final ModelMapper modelMapper;
     private final OrderRepository orderRepository;
 
+
+
     @Override
     public PaymentDto createPayment(PaymentDto paymentDto) {
-        return null;
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-//    @Override
-//    public PaymentDto createPayment(PaymentDto paymentDto) {
-////        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-////        String username = authentication.getName();
-////
-////        Order order = (Order) orderRepository.findTopByCustomer_UsernameOrderByOrderDatetimeDesc(username)
-////                .orElseThrow(() -> new RuntimeException("No active order found for user: " + username));
-////
-////        Payment payment = modelMapper.map(paymentDto, Payment.class);
-////        payment.setOrder(order);
-////
-////        Payment saved = paymentRepository.save(payment);
-////
-////        return modelMapper.map(saved, PaymentDto.class);
-//    }
+        Order order = (Order) orderRepository.findTopByUser_UserNameOrderByOrderDatetimeDesc(username)
+                .orElseThrow(() -> new RuntimeException("No active order found for user: " + username));
+
+        Payment payment = modelMapper.map(paymentDto, Payment.class);
+        payment.setOrder(order);
+
+        Payment saved = paymentRepository.save(payment);
+
+        return modelMapper.map(saved, PaymentDto.class);
+    }
 
 }

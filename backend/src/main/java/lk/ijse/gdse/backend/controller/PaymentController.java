@@ -28,14 +28,14 @@ public class PaymentController {
         );
     }
 
-//    @GetMapping("/all")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<ApiResponse> getAllOrders() {
-//        List<PaymentDto> paymentDtos = paymentService.getAllPayment();
-//        return ResponseEntity.ok(
-//                new ApiResponse(200, "OK", paymentDtos)
-//        );
-//    }
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse> getAllOrders() {
+        List<PaymentDto> paymentDtos = paymentService.getAllPayment();
+        return ResponseEntity.ok(
+                new ApiResponse(200, "OK", paymentDtos)
+        );
+    }
 //    @GetMapping("/paginated")
 //    public ResponseEntity<ApiResponse> getPaginated(
 //            @RequestParam int page,

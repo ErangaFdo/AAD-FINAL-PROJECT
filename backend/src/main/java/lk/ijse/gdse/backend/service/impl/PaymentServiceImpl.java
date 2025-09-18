@@ -1,5 +1,6 @@
 package lk.ijse.gdse.backend.service.impl;
 
+import lk.ijse.gdse.backend.dto.OrderDto;
 import lk.ijse.gdse.backend.dto.PaymentDto;
 import lk.ijse.gdse.backend.entity.Order;
 import lk.ijse.gdse.backend.entity.Payment;
@@ -11,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,16 @@ public class PaymentServiceImpl implements PaymentService {
         Payment saved = paymentRepository.save(payment);
 
         return modelMapper.map(saved, PaymentDto.class);
+    }
+
+    @Override
+    public List<PaymentDto> getAllPayment() {
+        List<Payment> payments = paymentRepository.findAll();
+        List<PaymentDto> paymentDtos = new ArrayList<>();
+        for (Payment payment : payments) {
+            paymentDtos.add(modelMapper.map(payment, PaymentDto.class));
+        }
+        return paymentDtos;
     }
 
 }

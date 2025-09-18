@@ -1,6 +1,7 @@
 package lk.ijse.gdse.backend.service;
 
 import lk.ijse.gdse.backend.dto.PopularDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface PopularService {
     List<PopularDto> getAllPopularIte();
     void updatePopular(PopularDto popularDto);
     void deletePopular(Long id);
+
 }

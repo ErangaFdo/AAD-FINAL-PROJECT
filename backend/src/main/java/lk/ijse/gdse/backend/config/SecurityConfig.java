@@ -41,10 +41,16 @@ public class SecurityConfig {
                                 "api/v1/product/images/**",
                                 "api/v1/popular/updateItem",
                                 "api/v1/popular/delete/" ,
-                                "api/v1/orders/**",
+                                "api/v1/orders/place",
+                                "api/v1/orders/paginated",
+                                "api/v1/orders/total-pages",
+                                "api/v1/orders/all",
+                                "api/v1/orders/status/{id}",
                                 "api/v1/feedback/save",
                                 "api/v1/feedback/**" ,
-                                "api/v1/payment/**").permitAll()
+                                "api/v1/payment/**",
+                                "api/v1/payment/all",
+                                "api/v1/popular/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session

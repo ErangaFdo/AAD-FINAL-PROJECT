@@ -2,12 +2,15 @@ package lk.ijse.gdse.backend.service.impl;
 
 import lk.ijse.gdse.backend.dto.PopularDto;
 import lk.ijse.gdse.backend.dto.ProductDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.entity.Popular;
 import lk.ijse.gdse.backend.entity.Product;
+import lk.ijse.gdse.backend.entity.User;
 import lk.ijse.gdse.backend.repository.PopularRepository;
 import lk.ijse.gdse.backend.service.PopularService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -76,6 +79,8 @@ public class PopularServiceImpl implements PopularService {
                 .orElseThrow(() -> new RuntimeException("Popular Item not found with id: " + id));
         popularRepository.delete(popular);
     }
+
+
 
 
 }

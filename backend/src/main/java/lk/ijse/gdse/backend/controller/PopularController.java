@@ -3,6 +3,7 @@ package lk.ijse.gdse.backend.controller;
 import lk.ijse.gdse.backend.dto.ApiResponse;
 import lk.ijse.gdse.backend.dto.PopularDto;
 import lk.ijse.gdse.backend.dto.ProductDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.service.PopularService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -108,4 +109,6 @@ public class PopularController {
         popularService.deletePopular(id);
         return ResponseEntity.ok(new ApiResponse(200, "Popular Item deleted successfully", null));
     }
+
+
 }

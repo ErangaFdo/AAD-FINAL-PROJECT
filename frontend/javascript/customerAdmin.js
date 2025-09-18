@@ -92,7 +92,7 @@ function loadPagination(current) {
 
 
 $('#searchForm').on('submit', function (e) {
-    e.preventDefault(); // form reload avoid
+    e.preventDefault();
 
     const keyword = $('#searchInput').val().trim();
     if (!keyword) {

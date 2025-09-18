@@ -2,6 +2,7 @@ package lk.ijse.gdse.backend.controller;
 
 import lk.ijse.gdse.backend.dto.ApiResponse;
 import lk.ijse.gdse.backend.dto.OrderDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,34 @@ public class OrdersController {
         List<OrderDto> order = orderService.getAllOrders();
         return ResponseEntity.ok(
                 new ApiResponse(200, "OK", order)
+        );
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<OrderDto> orders = orderService.getOrderByPage(page, size);
+        return ResponseEntity.ok(new ApiResponse(200, "OK", orders));
+    }
+
+    @GetMapping("/total-pages")
+    public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
+        int totalPages = orderService.getTotalPages(size);
+        return ResponseEntity.ok(totalPages);
+    }
+
+    @PatchMapping("status/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse> changeStatus(@PathVariable("id") Long id){
+        orderService.changeStatus(id);
+        return ResponseEntity.ok(
+                new ApiResponse(
+                        200,
+                        "order change Status update",
+                        null
+                )
         );
     }
 }

@@ -9,4 +9,7 @@ import java.util.List;
 public interface OrderService {
     OrderDto createOrder(OrderDto ordersDto);
     List<OrderDto> getAllOrders();
+    List<OrderDto> getOrderByPage(int page, int size);
+    int getTotalPages(int size);
+    void changeStatus(Long id);
 }

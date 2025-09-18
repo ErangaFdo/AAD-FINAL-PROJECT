@@ -9,6 +9,7 @@ import lk.ijse.gdse.backend.repository.UserRepository;
 import lk.ijse.gdse.backend.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,24 @@ public class OrderServiceImpl implements OrderService {
             orderDtos.add(modelMapper.map(order, OrderDto.class));
         }
         return orderDtos;
+    }
+
+    @Override
+    public List<OrderDto> getOrderByPage(int page, int size) {
+        int offset = page * size;
+        List<Order> orders = orderRepository.findByOrderPaginated(size, offset);
+        return modelMapper.map(orders, new TypeToken<List<OrderDto>>() {}.getType());
+    }
+
+    @Override
+    public int getTotalPages(int size) {
+        int totalUsers = orderRepository.getTotalOrderCount();
+        return (int) Math.ceil((double) totalUsers / size);
+    }
+
+    @Override
+    public void changeStatus(Long id) {
+        orderRepository.updateStatus(id);
     }
 
 }

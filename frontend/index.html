@@ -175,15 +175,14 @@
             background-position: center;
         }
 
-        /* Grid positioning exactly like the reference */
-        /* First row: 3 columns - 3 columns - 6 columns */
-        .product-card:nth-child(1) { grid-row: 1; grid-column: 1 / 4; }  /* Art Deco Home - 3 columns */
-        .product-card:nth-child(2) { grid-row: 1; grid-column: 4 / 10; } /* Helen Chair - 6 columns */
-        .product-card:nth-child(3) { grid-row: 1; grid-column: 10 / 13; } /* Vase Of Flowers - 3 columns */
 
-        /* Second row: 6 columns each */
-        .product-card:nth-child(4) { grid-row: 2; grid-column: 1 / 7; }  /* Wood Eggs - 6 columns */
-        .product-card:nth-child(5) { grid-row: 2; grid-column: 7 / 13; } /* Table Wood Pine - 6 columns */
+        .product-card:nth-child(1) { grid-row: 1; grid-column: 1 / 4; }
+        .product-card:nth-child(2) { grid-row: 1; grid-column: 4 / 10; }
+        .product-card:nth-child(3) { grid-row: 1; grid-column: 10 / 13; }
+
+
+        .product-card:nth-child(4) { grid-row: 2; grid-column: 1 / 7; }
+        .product-card:nth-child(5) { grid-row: 2; grid-column: 7 / 13; }
 
         @media (max-width: 768px) {
             .catalog-grid {
@@ -828,32 +827,36 @@
                 let cards = "";
 
                 feedbackList.forEach(fb => {
-
                     cards += `
-                    <div class="col-md-6 col-lg-3 mb-4">
-                      <div class="card shadow-sm border-0 rounded-4 p-3 h-100 feedback-card">
-                        <div class="d-flex align-items-center mb-3">
-                          <div class="feedback-avatar rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" style="width:40px;height:40px;">
-                            ${fb.fullName.charAt(0).toUpperCase()}
-                          </div>
-                          <div class="ms-3">
-                            <h6 class="mb-0 fw-semibold">${fb.fullName}</h6>
-                            <small class="text-muted">${fb.email}</small>
-                          </div>
-                        </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                  <div class="card shadow-lg border-0 rounded-4 p-4 h-100 feedback-card position-relative overflow-hidden">
 
-                        <p class="fst-italic text-dark small mb-3">
-                          “${fb.message}”
-                        </p>
+                    <!-- floating quote icon -->
+                    <div class="position-absolute top-0 end-0 p-3 text-primary opacity-25" style="font-size:2rem;">
+                      <i class="bi bi-chat-quote-fill"></i>
+                    </div>
 
-                        <p class="mb-2 small">
-                          <span class="fw-semibold">Service:</span>
-                          <span class="text-primary">${fb.services}</span>
-                        </p>
-
-
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="feedback-avatar rounded-circle bg-gradient d-flex justify-content-center align-items-center text-white shadow-sm"
+                           style="width:50px;height:50px; background: linear-gradient(135deg,#4e54c8,#8f94fb);">
+                        ${fb.fullName.charAt(0).toUpperCase()}
+                      </div>
+                      <div class="ms-3">
+                        <h6 class="mb-0 fw-bold text-dark">${fb.fullName}</h6>
+                        <small class="text-muted">${fb.email}</small>
                       </div>
                     </div>
+
+                    <p class="fst-italic text-secondary small mb-3">
+                      “${fb.message}”
+                    </p>
+
+                    <p class="mb-0 small">
+                      <span class="fw-semibold text-dark">Service:</span>
+                      <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-1 ms-1">${fb.services}</span>
+                    </p>
+                  </div>
+                </div>
                 `;
                 });
 
@@ -865,6 +868,8 @@
             }
         });
     }
+
+
 
     $(document).ready(function() {
         loadFeedbackCards();

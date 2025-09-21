@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #fdfbfb, #ebedee);
+            background: linear-gradient(135deg, #f9f9f9, #f1f1f1);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .payment-wrapper {
@@ -18,59 +18,65 @@
             justify-content: center;
         }
         .payment-card {
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
             background: #fff;
-        }
-        .form-section {
-            padding: 40px;
+            padding: 40px 35px;
+            max-width: 500px;
+            width: 100%;
         }
         .form-section h3 {
-            font-weight: bold;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.6rem;
+            color: #333;
+        }
+        .text-muted {
+            font-size: 0.9rem;
             margin-bottom: 20px;
         }
         .btn-primary {
-            background-color: #ff6b35;
-            border-color: #ff6b35;
+            background-color: #4e3629; /* Dark brown furniture tone */
+            border-color: #4e3629;
             border-radius: 8px;
             font-weight: 600;
+            padding: 12px;
+            font-size: 1rem;
         }
         .btn-primary:hover {
-            background-color: #e55b2a;
-            border-color: #e55b2a;
+            background-color: #3b2920;
+            border-color: #3b2920;
         }
         .card-logos img {
-            height: 28px;
-            margin: 0 6px;
+            height: 26px;
+            margin-right: 10px;
         }
-        .image-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            min-height: 50%;
+        .form-control {
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            transition: all 0.2s;
         }
-        .image-section img {
-            max-width: 100%;   /* shrink image size */
-            border-radius: 15px;
+        .form-control:focus {
+            border-color: #4e3629;
+            box-shadow: 0 0 0 0.15rem rgba(78, 54, 41, 0.2);
         }
-        @media (max-width: 768px) {
-            .image-section {
-                display: none;
-            }
+        label {
+            font-weight: 500;
+            font-size: 0.95rem;
         }
-
     </style>
 </head>
 <body>
 
 <div class="container payment-wrapper">
-    <div class="row payment-card w-100" style="max-width: 950px;">
+    <div class="payment-card">
 
         <!-- Left Form Section -->
-        <div class="col-md-6 form-section">
-            <p class="text-muted">Complete your payment securely with your card.</p>
+        <div class="form-section">
+            <h3>Secure Payment</h3>
+            <p class="text-muted">Complete your order safely and quickly.</p>
 
             <div class="d-flex mb-3 card-logos">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa Logo">
@@ -84,7 +90,7 @@
                     <input type="text" class="form-control" id="orderAmount" readonly>
                 </div>
 
-                <h6 class="mt-4">Card Details</h6>
+                <h6 class="mt-4 mb-2 fw-bold">Card Details</h6>
                 <div class="mb-3">
                     <label for="cardNumber" class="form-label">Card Number</label>
                     <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
@@ -110,14 +116,14 @@
                     <input type="text" class="form-control" id="cardName" placeholder="Name on card" required>
                 </div>
 
-                <button type="button" class="btn btn-primary w-100 mt-3" id="payButton">Pay Now</button>
+                <button type="button" class="btn btn-primary w-100 mt-2" id="payButton">Pay Now</button>
             </form>
-        </div>
 
-        <!-- Right Image Section -->
-<!--        <div class="col-md-6 image-section">-->
-<!--            <img src="Assets/images/person-paying-with-nfc-technology-restaurant.jpg" alt="Payment Illustration">-->
-<!--        </div>-->
+            <div class="login-link">
+                If you want to delivery please fill the details..  <a href="order.html"> Delivery </a>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -125,6 +131,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
 <script>
     $(document).ready(function() {
         // Load total from sessionStorage

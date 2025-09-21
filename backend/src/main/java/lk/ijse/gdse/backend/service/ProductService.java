@@ -14,4 +14,5 @@ public interface ProductService {
     void deleteProduct(Long id);
     List<ProductDto> getProductByPage(int page, int size);
     int getTotalPages(int size);
+    List<ProductDto> searchProducts(String keyword);
 }

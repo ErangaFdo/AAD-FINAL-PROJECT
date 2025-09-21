@@ -90,5 +90,11 @@ public class ProductServiceImpl implements ProductService {
         return (int) Math.ceil((double) totalUsers / size);
     }
 
+    @Override
+    public List<ProductDto> searchProducts(String keyword) {
+        List<Product>list=productRepository.findProductByCategoryContainingIgnoreCase(keyword);
+        return modelMapper.map(list, new TypeToken<List<ProductDto>>(){}.getType());
+    }
+
 
 }

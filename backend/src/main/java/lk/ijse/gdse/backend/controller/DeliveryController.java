@@ -27,13 +27,28 @@ public class DeliveryController {
                 new ApiResponse(201, "Delivery Saved Successfully", saveDelivery)
         );
     }
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse> getAllDelivery() {
+        List<DeliveryDto> deliveryDtos = deliveryService.getAllDelivery();
+        return ResponseEntity.ok(
+                new ApiResponse(200, "OK", deliveryDtos)
+        );
+    }
 
-//    @GetMapping("/all")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<ApiResponse> getAllDelivery() {
-//        List<DeliveryDto> deliveryDtos = deliveryService.getAllDelivery();
-//        return ResponseEntity.ok(
-//                new ApiResponse(200, "OK", deliveryDtos)
-//        );
-//    }
+    @GetMapping("/paginated")
+    public ResponseEntity<ApiResponse> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        List<DeliveryDto> deliveryDtos = deliveryService.getDeliveryByPage(page, size);
+        return ResponseEntity.ok(new ApiResponse(200, "OK", deliveryDtos));
+    }
+
+    @GetMapping("/total-pages")
+    public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
+        int totalPages = deliveryService.getTotalPages(size);
+        return ResponseEntity.ok(totalPages);
+    }
+
 }

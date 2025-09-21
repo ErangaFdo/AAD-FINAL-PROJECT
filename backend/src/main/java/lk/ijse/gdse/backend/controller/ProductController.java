@@ -2,6 +2,7 @@ package lk.ijse.gdse.backend.controller;
 
 import lk.ijse.gdse.backend.dto.ApiResponse;
 import lk.ijse.gdse.backend.dto.ProductDto;
+import lk.ijse.gdse.backend.dto.UserDto;
 import lk.ijse.gdse.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -144,6 +145,18 @@ public class ProductController {
     public ResponseEntity<Integer> getTotalPages(@RequestParam int size) {
         int totalPages = productService.getTotalPages(size);
         return ResponseEntity.ok(totalPages);
+    }
+
+    @GetMapping("search/{keyword}")
+    public ResponseEntity<ApiResponse> searchProducts(@PathVariable("keyword") String keyword) {
+        List<ProductDto> productDtos = productService.searchProducts(keyword);
+        return ResponseEntity.ok(
+                new ApiResponse(
+                        200,
+                        "Product found Successfully",
+                        productDtos
+                )
+        );
     }
 
 

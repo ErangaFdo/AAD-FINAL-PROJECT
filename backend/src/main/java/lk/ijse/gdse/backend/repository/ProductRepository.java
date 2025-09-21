@@ -16,4 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM products", nativeQuery = true)
     int getTotalProductCount();
+
+    List<Product> findProductByCategoryContainingIgnoreCase(String keyword);
 }

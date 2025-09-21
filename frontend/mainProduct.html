@@ -797,7 +797,7 @@
 
 
     let currentPage = 0;
-    const pageSize = 4;
+    const pageSize = 12;
 
     function loadMenuCard() {
         $.ajax({
@@ -822,7 +822,7 @@
                                         <div class="d-flex justify-content-between">
                                             <button class="btn btn-outline-danger btn-sm w-100 mx-1">Add to Cart</button>
                                             <button
-                                                class="btn btn-warning btn-sm w-100 mx-1 order-now-btn"
+                                                class="btn  btn-sm w-100 mx-1 order-now-btn" style="background-color: #e3853e "
                                                 data-name="${menu.name}"
                                                 data-price="${menu.price.toFixed(2)}"
                                           >
